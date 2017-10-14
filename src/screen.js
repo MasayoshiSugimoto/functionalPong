@@ -1,6 +1,8 @@
 "use strict"
 
-function makeScreen(doc, windowRef) {
+function Screen(doc, windowRef, backgroundColor) {
+
+  const logger = Logger('Screen')
 
   const canvas = doc.createElement('canvas')
   doc.body.appendChild(canvas)
@@ -9,18 +11,34 @@ function makeScreen(doc, windowRef) {
   const width = windowRef.innerWidth
   const height = windowRef.innerHeight
 
-  function Screen(backgroundColor) {
+  return () => {
 
     function getRef() { return { width, height, clear } }
 
     function clear() {
+      doc.body.style.margin = 0
+      canvas.style.width = width
+      canvas.style.height = height
       context.fillStyle = backgroundColor
       context.fillRect(0, 0, width, height)
       return getRef()
     }
     
+    function drawRectangle(rectangle, color) {
+      context.fillStyle = color
+      context.fillRect(
+        rectangle.left(),
+        rectangle.right(),
+        rectangle.size.x,
+        rectangle.size.y
+      )
+      return getRef()
+    }
+
+    function center() {
+      return Vector(width / 2, height / 2)
+    }
+
     return getRef()
   }
-
-  return Screen
 }

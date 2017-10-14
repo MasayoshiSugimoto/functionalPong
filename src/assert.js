@@ -1,11 +1,13 @@
 "use strict"
 
+include('src/misc.js')
+
 const assertLog = (message) =>
   console.log(`[ASSERT] ${message}`)
 
-const assertEqualString = (expected, actual) => {
-  if (expected != actual) {
-   assertLog('String not equal') 
+const assertEqual = (expected, actual) => {
+  if (expected !== actual) {
+   assertLog('Non equality') 
    assertLog('Expected: ' + expected)
    assertLog('Actual: ' + actual)
   }
